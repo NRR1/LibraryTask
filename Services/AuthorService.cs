@@ -15,16 +15,10 @@ namespace LibraryTask.Services
 
         public async Task<List<Author>> GetAll()
         {
-            var libraries = _librarydbcontext.Authors
-                .Include(a => a.Books)
-                .ToList();
-            foreach (var library in libraries)
-            {
-                var cw = await _librarydbcontext.Authors.Include(a => a.Books).ToListAsync();
-            }
+            var libraries = _librarydbcontext.Authors.ToList();
             return libraries;
         }
-        
+
         public async Task<Author> GetByID(int id)
         {
             if(_librarydbcontext.Authors == null)
@@ -37,6 +31,8 @@ namespace LibraryTask.Services
                 Console.WriteLine("n");
             }
             return a;
+            //fhhffhfhfhfhdsfsdoksvcisvnwcajncijnpdwcf.sdfdfsd
+            //fsdf]dsf.sd'fds'f,sd;FileShare,f;SqlServerDatabaseFacadeExtensions,sdf
         }
 
         public async Task<Author> Add(Author author)
@@ -46,25 +42,46 @@ namespace LibraryTask.Services
             return author;
         }
 
+
+        private bool AuthorAvaliable(int id)
+        {
+            return (_librarydbcontext.Authors?.Any(x => x.AutId == id)).GetValueOrDefault();
+        }
+
+
         public async Task<Author> Update(Author author, int id)
         {
             if(id != author.AutId)
             {
                 Console.WriteLine("Error");
             }
-            _librarydbcontext.Authors.Update(author);
+            _librarydbcontext.Entry(author).State = EntityState.Modified;
+
             try
             {
                 await _librarydbcontext.SaveChangesAsync();
             }
-            catch(DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!UpdateAvaliable(id))
+                if (!AuthorAvaliable(id))
                 {
-                    Console.WriteLine("Error");
+                    Console.WriteLine("wewewew");
                 }
             }
             return author;
+            //_librarydbcontext.Authors.Update(author);
+            //try
+            //{
+            //    await _librarydbcontext.SaveChangesAsync();
+            //}
+            //catch(DbUpdateConcurrencyException)
+            //{
+            //    if (!UpdateAvaliable(id))
+            //    {
+            //        Console.WriteLine("Error");
+            //    }
+            //}
+            //return author;
         }
 
         private bool UpdateAvaliable(int id)

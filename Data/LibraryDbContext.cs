@@ -43,15 +43,15 @@ public partial class LibraryDbContext : DbContext
 
             entity.Property(e => e.BookId).HasColumnName("BookID");
 
-            entity.HasOne(d => d.BookAuthorNavigation).WithMany(p => p.Books)
-                .HasForeignKey(d => d.BookAuthor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Book__BookAuthor__29572725");
+            //entity.HasOne(d => d.BookAuthorNavigation).WithMany(p => p.Books)
+            //    .HasForeignKey(d => d.BookAuthor)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Book__BookAuthor__29572725");
 
-            entity.HasOne(d => d.BookGenreNavigation).WithMany(p => p.Books)
-                .HasForeignKey(d => d.BookGenre)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Book__BookGenre__286302EC");
+            //entity.HasOne(d => d.BookGenreNavigation).WithMany(p => p.Books)
+            //    .HasForeignKey(d => d.BookGenre)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__Book__BookGenre__286302EC");
         });
 
         modelBuilder.Entity<Genre>(entity =>
