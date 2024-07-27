@@ -40,9 +40,9 @@ namespace LibraryTask.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<ActionResult<Author>> DeleteAuthor(int id)
+        public async Task<ActionResult<Author>> DeleteAuthor(int id, Author author)
         {
-            return Ok(await _authorService.Delete(id));
+            return Ok(await _authorService.Delete(id, author));
         }
     }
 }

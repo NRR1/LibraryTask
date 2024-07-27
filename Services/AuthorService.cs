@@ -25,14 +25,12 @@ namespace LibraryTask.Services
             {
                 Console.WriteLine();
             }
-            var a = await _librarydbcontext.Authors.FindAsync(id);
-            if(a == null)
+            var search = await _librarydbcontext.Authors.FindAsync(id);
+            if(search == null)
             {
                 Console.WriteLine("n");
             }
-            return a;
-            //fhhffhfhfhfhdsfsdoksvcisvnwcajncijnpdwcf.sdfdfsd
-            //fsdf]dsf.sd'fds'f,sd;FileShare,f;SqlServerDatabaseFacadeExtensions,sdf
+            return search;
         }
 
         public async Task<Author> Add(Author author)
@@ -45,13 +43,13 @@ namespace LibraryTask.Services
 
         private bool AuthorAvaliable(int id)
         {
-            return (_librarydbcontext.Authors?.Any(x => x.AutId == id)).GetValueOrDefault();
+            return (_librarydbcontext.Authors?.Any(x => x.Id == id)).GetValueOrDefault();
         }
 
 
         public async Task<Author> Update(Author author, int id)
         {
-            if(id != author.AutId)
+            if(id != author.Id)
             {
                 Console.WriteLine("Error");
             }
@@ -69,36 +67,23 @@ namespace LibraryTask.Services
                 }
             }
             return author;
-            //_librarydbcontext.Authors.Update(author);
-            //try
-            //{
-            //    await _librarydbcontext.SaveChangesAsync();
-            //}
-            //catch(DbUpdateConcurrencyException)
-            //{
-            //    if (!UpdateAvaliable(id))
-            //    {
-            //        Console.WriteLine("Error");
-            //    }
-            //}
-            //return author;
         }
 
         private bool UpdateAvaliable(int id)
         {
-            return (_librarydbcontext.Authors?.Any(x => x.AutId == id)).GetValueOrDefault();
+            return (_librarydbcontext.Authors?.Any(x => x.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<Author> Delete(int id)
+        public async Task<Author> Delete(int id, Author author)
         {
-            if(_librarydbcontext.Authors == null)
+            if(_librarydbcontext == null)
             {
                 Console.WriteLine("Error");
             }
             var aut = await _librarydbcontext.Authors.FindAsync(id);
             if(aut == null)
             {
-                Console.WriteLine("Error");
+                return author;
             }
 
             _librarydbcontext.Remove(aut);
