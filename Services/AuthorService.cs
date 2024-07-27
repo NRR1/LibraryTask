@@ -1,4 +1,3 @@
-﻿using Microsoft.EntityFrameworkCore;
 using LibraryTask.Data;
 using LibraryTask.Interfaces;
 using LibraryTask.Models;
@@ -15,27 +14,22 @@ namespace LibraryTask.Services
 
         public async Task<List<Author>> GetAll()
         {
-            var libraries = _librarydbcontext.Authors
-                .ToList();
-            //foreach (var library in libraries)
-            //{
-            //    var cw = await _librarydbcontext.Authors.Include(a => a.Books).ToListAsync();
-            //}
+
             return libraries;
         }
-        
+
         public async Task<Author> GetByID(int id)
         {
             if(_librarydbcontext.Authors == null)
             {
                 Console.WriteLine();
             }
-            var a = await _librarydbcontext.Authors.FindAsync(id);
-            if(a == null)
+            var search = await _librarydbcontext.Authors.FindAsync(id);
+            if(search == null)
             {
                 Console.WriteLine("n");
             }
-            return a;
+            return search;
         }
 
         public async Task<Author> Add(Author author)
@@ -45,22 +39,30 @@ namespace LibraryTask.Services
             return author;
         }
 
+
+        private bool AuthorAvaliable(int id)
+        {
+            return (_librarydbcontext.Authors?.Any(x => x.Id == id)).GetValueOrDefault();
+        }
+
+
         public async Task<Author> Update(Author author, int id)
         {
-            if(id != author.AutId)
+            if(id != author.Id)
             {
                 Console.WriteLine("Error");
             }
-            _librarydbcontext.Authors.Update(author);
+            _librarydbcontext.Entry(author).State = EntityState.Modified;
+
             try
             {
                 await _librarydbcontext.SaveChangesAsync();
             }
-            catch(DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!UpdateAvaliable(id))
+                if (!AuthorAvaliable(id))
                 {
-                    Console.WriteLine("Error");
+                    Console.WriteLine("wewewew");
                 }
             }
             return author;
@@ -68,19 +70,19 @@ namespace LibraryTask.Services
 
         private bool UpdateAvaliable(int id)
         {
-            return (_librarydbcontext.Authors?.Any(x => x.AutId == id)).GetValueOrDefault();
+            return (_librarydbcontext.Authors?.Any(x => x.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<Author> Delete(int id)
+        public async Task<Author> Delete(int id, Author author)
         {
-            if(_librarydbcontext.Authors == null)
+            if(_librarydbcontext == null)
             {
                 Console.WriteLine("Error");
             }
             var aut = await _librarydbcontext.Authors.FindAsync(id);
             if(aut == null)
             {
-                Console.WriteLine("Error");
+                return author;
             }
 
             _librarydbcontext.Remove(aut);

@@ -5,17 +5,17 @@ namespace LibraryTask.Models;
 
 public partial class Book
 {
-    public int BookId { get; set; }
+    public int Id { get; set; }
 
     public string BookName { get; set; } = null!;
 
     public int BookPage { get; set; }
 
-    public int BookGenre { get; set; }
+    public int GenreId { get; set; }
 
-    public int BookAuthor { get; set; }
+    public int AuthorId { get; set; }
 
-    public virtual Author BookAuthorNavigation { get; set; } = null!;
+    public Author? Author { get; set; } 
 
-    public virtual Genre BookGenreNavigation { get; set; } = null!;
+    public Genre? Genre { get; set; } 
 }

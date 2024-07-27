@@ -5,7 +5,7 @@ namespace LibraryTask.Models;
 
 public partial class Author
 {
-    public int AutId { get; set; }
+    public int Id { get; set; }
 
     public string AutName { get; set; } = null!;
 

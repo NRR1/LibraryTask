@@ -6,6 +6,6 @@
         Task<T> GetByID (int id);
         Task<T> Add(T item);
         Task<T> Update(T item, int id);
-        Task<T> Delete(int id);
+        Task<T> Delete(int id, T item);
     }
 }
