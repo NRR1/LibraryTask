@@ -1,4 +1,3 @@
-﻿using Microsoft.EntityFrameworkCore;
 using LibraryTask.Data;
 using LibraryTask.Interfaces;
 using LibraryTask.Models;
@@ -15,7 +14,7 @@ namespace LibraryTask.Services
 
         public async Task<List<Author>> GetAll()
         {
-            var libraries = _librarydbcontext.Authors.ToList();
+
             return libraries;
         }
 
