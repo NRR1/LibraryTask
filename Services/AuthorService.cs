@@ -16,12 +16,11 @@ namespace LibraryTask.Services
         public async Task<List<Author>> GetAll()
         {
             var libraries = _librarydbcontext.Authors
-                .Include(a => a.Books)
                 .ToList();
-            foreach (var library in libraries)
-            {
-                var cw = await _librarydbcontext.Authors.Include(a => a.Books).ToListAsync();
-            }
+            //foreach (var library in libraries)
+            //{
+            //    var cw = await _librarydbcontext.Authors.Include(a => a.Books).ToListAsync();
+            //}
             return libraries;
         }
         
